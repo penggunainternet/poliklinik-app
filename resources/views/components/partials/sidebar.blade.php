@@ -39,6 +39,22 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('pasien.index') }}" class="nav-link {{ request()->routeIs('pasien.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-injured"></i>
+                            <p>
+                                Manajemen Pasien
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('obat.index') }}" class="nav-link {{ request()->routeIs('obat.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-pills"></i>
+                            <p>
+                                Manajemen Obat
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('polis.index') }}" class="nav-link {{ request()->routeIs('polis.*') ? 'active' : '' }}">
                             <i class="nav-icon fa-user-md"></i>
                             <p>

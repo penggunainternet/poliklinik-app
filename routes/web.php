@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\PoliController;
+use App\Http\Controllers\PasienController;
+use App\Http\Controllers\ObatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,4 +41,7 @@ Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->group(function () 
         return view('pasien.dashboard');
     })->name('pasien.dashboard');
 });
+
+
+
 
