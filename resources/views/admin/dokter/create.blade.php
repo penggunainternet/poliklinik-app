@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div class="form-group mb-3">
                                 <label for="alamat" class="form-label">Alamat <span class="text-danger">*</span></label>
                                 <textarea required name="alamat" id="alamat"
@@ -61,7 +61,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-    
+
                             <div class="form-group mb-3">
                                 <label for="id_poli" class="form-label">Poli <span class="text-danger">*</span></label>
                                 <select name="id_poli" id="id_poli" class="form-control @error('id_poli') is-invalid @enderror" required>
@@ -76,7 +76,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-    
+
                             <div class="form-group mb-3">
                                 <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                                 <input type="password" name="password" id="password"
@@ -86,7 +86,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-    
+
                             <div class="form-group mb-3">
                                 <button type="submit" class="btn btn-success">
                                     <i class="fas fa-save"></i> Simpan
