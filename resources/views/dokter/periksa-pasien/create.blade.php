@@ -3,6 +3,13 @@
     <div class="container-fluid px-4 mt-4">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
                 <h1 class="mb-4">Periksa Pasien</h1>
 
                 <div class="card">
@@ -18,11 +25,18 @@
                                     <option value="">-- Pilih Obat --</option>
                                     @foreach ($obats as $obat)
                                         <option value="{{ $obat->id }}" data-nama="{{ $obat->nama_obat }}"
-                                            data-harga="{{ $obat->harga }}">
-                                            {{ $obat->nama_obat }} - Rp{{ number_format($obat->harga) }}
+                                            data-harga="{{ $obat->harga }}" data-stok="{{ $obat->stok }}"
+                                            {{ $obat->stok <= 0 ? 'disabled' : '' }}>
+                                            {{ $obat->nama_obat }} - Rp{{ number_format($obat->harga) }} (Stok: {{ $obat->stok }})
+                                            {{ $obat->stok <= 0 ? '- HABIS' : '' }}
                                         </option>
                                     @endforeach
                                 </select>
+                                @if ($obats->where('stok', '<=', 0)->count() > 0)
+                                    <small class="text-danger">
+                                        <i class="fas fa-exclamation-circle"></i> Obat yang habis tidak bisa dipilih
+                                    </small>
+                                @endif
                             </div>
 
                             <div class="form-group mb-3">
@@ -66,15 +80,24 @@
         const id = selectedOption.value;
         const nama = selectedOption.dataset.nama;
         const harga = parseInt(selectedOption.dataset.harga || 0);
+        const stok = parseInt(selectedOption.dataset.stok || 0);
 
         if (!id || daftarObat.some(o => o.id == id)) {
+            return;
+        }
+
+        // Validasi stok
+        if (stok <= 0) {
+            alert(`❌ Obat "${nama}" habis! Stok tidak tersedia.`);
+            selectObat.selectedIndex = 0;
             return;
         }
 
         daftarObat.push({
             id,
             nama,
-            harga
+            harga,
+            stok
         });
         renderObat();
         selectObat.selectedIndex = 0;

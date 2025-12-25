@@ -51,6 +51,12 @@
                             <i class="nav-icon fas fa-pills"></i>
                             <p>
                                 Manajemen Obat
+                                @php
+                                    $obatHabis = \App\Models\Obat::where('stok', '<=', 0)->count();
+                                @endphp
+                                @if ($obatHabis > 0)
+                                    <span class="badge badge-danger badge-pill float-right">{{ $obatHabis }}</span>
+                                @endif
                             </p>
                         </a>
                     </li>
