@@ -32,7 +32,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('dokter.index') }}" class="nav-link {{ request()->routeIs('dokter.*') ? 'active' : '' }}">
-                            <i class="nav-icon fa-user-md"></i>
+                            <i class="nav-icon fas fa-user-md"></i>
                             <p>
                                 Manajemen Dokter
                             </p>
@@ -56,7 +56,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('polis.index') }}" class="nav-link {{ request()->routeIs('polis.*') ? 'active' : '' }}">
-                            <i class="nav-icon fa-user-md"></i>
+                            <i class="nav-icon fas fa-clinic-medical"></i>
                             <p>
                                 Manajemen Poli
                             </p>
@@ -107,6 +107,14 @@
                             <i class="nav-icon fas fa-stethoscope"></i>
                             <p>
                                 Periksa Pasien
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('riwayat-pasien.index') }}" class="nav-link {{ request()->routeIs('riwayat-pasien.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-history"></i>
+                            <p>
+                                Riwayat Pasien
                             </p>
                         </a>
                     </li>
