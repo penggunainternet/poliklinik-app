@@ -40,14 +40,14 @@ class PeriksaPasienController extends Controller
             'biaya_periksa' => 'required|integer',
         ]);
 
-        $obatIds = json_decode($request->obat_json, true);
+        $obatData = json_decode($request->obat_json, true);
 
-        // Validasi stok obat sebelum disimpan
-        foreach ($obatIds as $idObat) {
-            $obat = Obat::findOrFail($idObat);
-            if ($obat->stok <= 0) {
+        // Validasi stok obat sebelum disimpan (sesuai dengan kuantitas)
+        foreach ($obatData as $item) {
+            $obat = Obat::findOrFail($item['id']);
+            if ($obat->stok < $item['kuantitas']) {
                 return redirect()->back()
-                    ->with('error', "Obat '{$obat->nama_obat}' habis! Stok tidak tersedia.")
+                    ->with('error', "Stok obat '{$obat->nama_obat}' tidak cukup! Tersedia: {$obat->stok}, Diminta: {$item['kuantitas']}")
                     ->with('type', 'danger');
             }
         }
@@ -59,16 +59,17 @@ class PeriksaPasienController extends Controller
             'biaya_periksa' => $request->biaya_periksa ?? 150000,
         ]);
 
-        // Simpan detail periksa dan kurangi stok obat
-        foreach ($obatIds as $idObat) {
+        // Simpan detail periksa dan kurangi stok obat sesuai kuantitas
+        foreach ($obatData as $item) {
             DetailPeriksa::create([
                 'id_periksa' => $periksa->id,
-                'id_obat' => $idObat,
+                'id_obat' => $item['id'],
+                'kuantitas' => $item['kuantitas'],
             ]);
 
-            // Kurangi stok obat
-            $obat = Obat::findOrFail($idObat);
-            $obat->decrement('stok');
+            // Kurangi stok obat sesuai kuantitas
+            $obat = Obat::findOrFail($item['id']);
+            $obat->decrement('stok', $item['kuantitas']);
         }
 
         return redirect()->route('periksa-pasien.index')
