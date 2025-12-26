@@ -21,7 +21,7 @@
                     <table class="table table-bordered">
                         <thead class="thead-light">
                             <tr>
-                                <th>Id</th>
+                                {{-- <th>Id</th> --}}
                                 <th>Nama Obat</th>
                                 <th>Kemasan</th>
                                 <th>Harga</th>
@@ -32,7 +32,7 @@
                         <tbody>
                             @forelse ($obats as $obat)
                                 <tr>
-                                    <td>{{ $obat->id }}</td>
+                                    {{-- <td>{{ $obat->id }}</td> --}}
                                     <td>{{ $obat->nama_obat }}</td>
                                     <td>{{ $obat->kemasan }}</td>
                                     <td>Rp {{ number_format($obat->harga, 0, ',', '.') }}</td>
