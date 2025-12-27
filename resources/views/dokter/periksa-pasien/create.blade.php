@@ -44,8 +44,11 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="catatan" class="form-label">Catatan</label>
-                                <textarea name="catatan" id="catatan" class="form-control">{{ old('catatan') }}</textarea>
+                                <label for="catatan" class="form-label">Catatan <span class="text-danger">*</span></label>
+                                <textarea name="catatan" id="catatan" class="form-control" rows="3" placeholder="Masukkan catatan periksa" required>{{ old('catatan') }}</textarea>
+                                <div id="warning-catatan" class="alert alert-warning alert-sm mt-2" style="display: none;">
+                                    <i class="fas fa-exclamation-triangle"></i> Catatan harus diisi sebelum menyimpan
+                                </div>
                             </div>
 
                             <div class="form-group mb-3">
@@ -56,11 +59,27 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label>Total Harga</label>
-                                <p id="total-harga" class="fw-bold">Rp 0</p>
+                                <label>Rincian Biaya</label>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Biaya Konsultasi:</span>
+                                            <strong>Rp 150.000</strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Total Harga Obat:</span>
+                                            <strong id="total-obat">Rp 0</strong>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between">
+                                            <span class="fw-bold">TOTAL BIAYA:</span>
+                                            <strong id="total-harga" class="fs-5">Rp 150.000</strong>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <button type="submit" id="btn-simpan" class="btn btn-success" disabled>Simpan</button>
                             <a href="{{ route('periksa-pasien.index') }}" class="btn btn-secondary">Kembali</a>
                         </form>
                     </div>
@@ -77,8 +96,10 @@
     const listObat = document.getElementById('obat-terpilih');
     const inputBiaya = document.getElementById('biaya_periksa');
     const inputObatJson = document.getElementById('obat_json');
+    const totalObatEl = document.getElementById('total-obat');
     const totalHargaEl = document.getElementById('total-harga');
 
+    const BIAYA_KONSULTASI = 150000;
     let daftarObat = [];
 
     btnTambahObat.addEventListener('click', () => {
@@ -162,8 +183,10 @@
             listObat.appendChild(item);
         });
 
-        inputBiaya.value = total;
-        totalHargaEl.textContent = `Rp ${total.toLocaleString()}`;
+        const grandTotal = BIAYA_KONSULTASI + total;
+        inputBiaya.value = grandTotal;
+        totalObatEl.textContent = `Rp ${total.toLocaleString()}`;
+        totalHargaEl.textContent = `Rp ${grandTotal.toLocaleString()}`;
         inputObatJson.value = JSON.stringify(daftarObat.map(o => ({id: o.id, kuantitas: o.kuantitas})));
     }
 
@@ -182,4 +205,29 @@
         daftarObat.splice(index, 1);
         renderObat();
     }
+
+    // Validasi catatan
+    const catatanField = document.getElementById('catatan');
+    const btnSimpan = document.getElementById('btn-simpan');
+    const warningCatatan = document.getElementById('warning-catatan');
+
+    function validateForm() {
+        const catatan = catatanField.value.trim();
+
+        // Hanya validasi catatan (wajib)
+        if (catatan === '') {
+            btnSimpan.disabled = true;
+            warningCatatan.style.display = 'block';
+        } else {
+            btnSimpan.disabled = false;
+            warningCatatan.style.display = 'none';
+        }
+    }
+
+    // Validasi saat input berubah
+    catatanField.addEventListener('input', validateForm);
+    catatanField.addEventListener('change', validateForm);
+
+    // Validasi saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', validateForm);
 </script>

@@ -38,14 +38,20 @@
                                         <th>#</th>
                                         <th>Nama Obat</th>
                                         <th>Harga</th>
+                                        <th>Qty</th>
+                                        <th>Subtotal</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php $totalObat = 0; @endphp
                                     @foreach($periksa->detailPeriksas as $index => $detail)
+                                        @php $subtotal = $detail->obat->harga * $detail->kuantitas; $totalObat += $subtotal; @endphp
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $detail->obat->nama_obat }}</td>
                                             <td>Rp {{ number_format($detail->obat->harga, 0, ',', '.') }}</td>
+                                            <td>{{ $detail->kuantitas }}</td>
+                                            <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -57,9 +63,25 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Total Biaya Periksa</h5>
-                        <h3 class="text-primary">Rp {{ number_format($periksa->biaya_periksa, 0, ',', '.') }}</h3>
+                    <h5 class="card-header">Rincian Biaya</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Biaya Konsultasi:</span>
+                                    <strong>Rp 150.000</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Total Harga Obat:</span>
+                                    <strong>Rp {{ number_format($totalObat ?? 0, 0, ',', '.') }}</strong>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">TOTAL BIAYA:</span>
+                                    <strong class="text-primary fs-5">Rp {{ number_format($periksa->biaya_periksa, 0, ',', '.') }}</strong>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
