@@ -70,30 +70,29 @@
             </div>
         </div>
     </div>
-</x-layouts.app>
 
-<script>
-    const catatanField = document.getElementById('catatan');
-    const btnSimpan = document.getElementById('btn-simpan');
-    const warningCatatan = document.getElementById('warning-catatan');
+    <script>
+        const catatanField = document.getElementById('catatan');
+        const btnSimpan = document.getElementById('btn-simpan');
+        const warningCatatan = document.getElementById('warning-catatan');
 
-    function validateForm() {
-        const catatan = catatanField.value.trim();
+        function validateForm() {
+            const catatan = catatanField.value.trim();
 
-        if (catatan === '') {
-            btnSimpan.disabled = true;
-            warningCatatan.style.display = 'block';
-        } else {
-            btnSimpan.disabled = false;
-            warningCatatan.style.display = 'none';
+            if (catatan === '') {
+                btnSimpan.disabled = true;
+                warningCatatan.style.display = 'block';
+            } else {
+                btnSimpan.disabled = false;
+                warningCatatan.style.display = 'none';
+            }
         }
-    }
 
-    // Validasi saat input berubah
-    catatanField.addEventListener('input', validateForm);
-    catatanField.addEventListener('change', validateForm);
+        // Validasi saat input berubah
+        catatanField.addEventListener('input', validateForm);
+        catatanField.addEventListener('change', validateForm);
 
-    // Validasi saat halaman dimuat (jika ada nilai lama)
-    document.addEventListener('DOMContentLoaded', validateForm);
-</script>
+        // Validasi saat halaman dimuat (jika ada nilai lama)
+        document.addEventListener('DOMContentLoaded', validateForm);
+    </script>
 </x-layouts.app>
